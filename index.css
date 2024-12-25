@@ -1,17 +1,89 @@
 @import url('https://fonts.cdnfonts.com/css/jetbrains-mono-2');
 
+/* @font-face {
+  font-family: "Monaspace Neon";
+  font-weight: 100 900;
+  font-style: normal;
+  font-stretch: 75% 125%;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/githubnext/monaspace@v1.101/fonts/webfonts/MonaspaceNeonVarVF[wght,wdth,slnt].woff2") format("woff2");
+  src: url("https://cdn.jsdelivr.net/gh/githubnext/monaspace@v1.101/fonts/webfonts/MonaspaceNeonVarVF[wght,wdth,slnt].woff2") format("woff2") tech("variations");
+  font-variation-settings: "slnt" 0, "wdth" 100, "wght" 300;
+  font-feature-settings: "calt" var(--texture-healing, 0), "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1, "liga" 1;
+} */
+
 :root {
-  --font-family: "JetBrains Mono", monospace;
-  --line-height: 1.20rem;
+  --gray: rgb(142, 142, 147);
+  --gray2: rgb(174, 174, 178);
+  --gray3: rgb(199, 199, 204);
+  --gray4: rgb(209, 209, 214);
+  --gray5: rgb(229, 229, 234);
+  --gray6: rgb(242, 242, 247);
+  --red: rgb(255, 59, 48);
+  --blue: rgb(0, 122, 255);
+  --green: rgb(52, 199, 89);
+  --cyan: rgb(50, 173, 230);
+  --magenta: rgb(255, 45, 85);
+  --yellow: rgb(255, 204, 0);
+  --purple: rgba(175, 82, 222);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gray: rgb(142, 142, 147);
+    --gray2: rgb(99, 99, 102);
+    --gray3: rgb(72, 72, 74);
+    --gray4: rgb(58, 58, 60);
+    --gray5: rgb(44, 44, 46);
+    --gray6: rgb(28, 28, 30);
+    --red: rgb(255, 69, 58);
+    --blue: rgb(10, 132, 255);
+    --green: rgb(48, 209, 88);
+    --cyan: rgb(100, 210, 255);
+    --magenta: rgb(255, 55, 95);
+    --yellow: rgb(255, 214, 10);
+    --purple: rgba(191, 90, 242);
+  }
+}
+
+:root {
+  /* --font-family: "Monaspace Neon", "Noto Emoji", monospace; */
+  --font-family: "JetBrains Mono", "Noto Emoji", monospace;
+  --line-height: 1.315rem;
   --border-thickness: 2px;
   --text-color: #000;
   --text-color-alt: #666;
   --background-color: #fff;
   --background-color-alt: #eee;
 
+  --light-mix: 4%;
+  --medium-mix: 10%;
+  --half-mix: 50%;
+
+  --half-color: color-mix(in oklch, var(--text-color) var(--half-mix), var(--background-color) calc(100% - var(--half-mix)));
+
   --font-weight-normal: 500;
   --font-weight-medium: 600;
   --font-weight-bold: 800;
+
+  --width: 85ch;
+  --pad: 2ch;
+
+  --dot-color: var(--half-color);
+  --dot-size: 1px;
+  --dot-spacing: 1.5px;
+
+  --line-width : 0.5px;
+  --line-spacing: 6px;
+  --line-color: var(--half-color);
+
+  --link-color: var(--blue);
+  --visited-color: var(--purple);
+
+  --lh: var(--line-height);
+  --bc: var(--background-color);
+  --tc: var(--text-color);
+  --hc: var(--half-color);
 
   font-family: var(--font-family);
   font-optical-sizing: auto;
@@ -19,15 +91,83 @@
   font-style: normal;
   font-variant-numeric: tabular-nums lining-nums;
   font-size: 16px;
+  color-scheme: dark light;
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #fff;
+    --text-color: #cdcdcd;
     --text-color-alt: #aaa;
-    --background-color: #000;
+    --background-color: #000000;
     --background-color-alt: #111;
+
+    --light-mix: 12%;
+    --medium-mix: 40%;
+    --half-mix: 66.7%;
+
+    -webkit-font-smoothing: antialiased;
   }
+}
+
+/* :root::after {
+  content: "";
+  position: fixed;
+  border-top: 1px solid var(--color);
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+} */
+
+@media (min-width: 1400px) {
+  #TOC {
+    --toc-x: calc(var(--width) + var(--pad));
+    --toc-width: calc(51.25vw - (var(--toc-x) - (var(--width) / 2 - var(--pad) - 1ch)));
+    position: sticky;
+    top: 0;
+    height: 0;
+    transform: translate(var(--toc-x), calc(2 * var(--lh)));
+    /* width: round(up, var(--toc-width), 1ch); */
+    width: var(--toc-width);
+    max-width: calc(var(--width) / 2);
+  }
+
+  #TOC > ul {
+    overflow-y: auto;
+    height: calc(100dvh - 3 * var(--lh));
+    margin-top: calc(-1 * var(--lh));
+    padding-top: var(--lh);
+    padding-bottom: calc(var(--lh) + 2px);
+  }
+}
+
+ul > ul {
+  padding-bottom: 1px!important;
+}
+
+*::selection {
+  /* background: color-mix(in srgb, var(--accent-color) 20%, var(--background-color)); */
+  color: var(--background-color);
+  background: var(--text-color);
+  /* text-decoration-color: var(--background-color); */
+  -webkit-fonts-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  *::selection {
+    -webkit-fonts-smoothing: initial;
+  }
+}
+
+del, del * {
+   color: var(--text-color)!important;
+   background-color: var(--text-color)!important;
+}
+
+#TOC > h2 {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 * {
@@ -46,7 +186,7 @@ html {
   padding: 0;
   flex-direction: column;
   align-items: center;
-  background: var(--background-color);
+  background-color: var(--background-color);
   color: var(--text-color);
 }
 
@@ -54,18 +194,17 @@ body {
   position: relative;
   width: 100%;
   margin: 0;
-  padding: var(--line-height) 2ch;
-  max-width: calc(min(80ch, round(down, 100%, 1ch)));
+  padding: var(--line-height) 1ch;
+  /* padding: var(--line-height) calc(1ch + round(down, 50vw - 40ch, 1ch)) var(--line-height) calc(1ch + round(up, 50vw - 40ch, 1ch)); */
+  max-width: calc(min(var(--width), round(down, 100%, 1ch)));
   line-height: var(--line-height);
   overflow-x: hidden;
+  font-feature-settings: "calt" var(--texture-healing, 0), "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1, "liga" 1;
 }
 
 @media screen and (max-width: 480px) {
   :root {
     font-size: 14px;
-  }
-  body {
-    padding: var(--line-height) 1ch;
   }
 }
 
@@ -85,6 +224,80 @@ h2 {
   font-size: 1rem;
   text-transform: uppercase;
 }
+h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+label + h1 {
+  position: sticky;
+  z-index: 40;
+  background-color: var(--background-color);
+  /* text-decoration: underline; */
+  /* border-bottom: 2px solid; */
+  /* margin-bottom: calc(1rem - 2px); */
+  top: 0;
+}
+
+label + h1::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 6px double;
+}
+label + h1::after {
+  /* font-weight: 200;
+  content: ' #'; */
+}
+
+h2,
+h3
+{
+  position: relative;
+  margin-top: 0;
+}
+
+h2 {
+  padding-top: calc(var(--line-height) * 2);
+}
+
+h3 {
+  padding-top: calc(var(--line-height) * 1);
+}
+
+h1:has(+ #TOC) {
+  margin-bottom: 0;
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  height: var(--line-height);
+  background: var(--background-color);
+  /* border-top: 2px solid; */
+  border-bottom: 2px solid;
+  z-index: -1;
+}
+
+/* h3::before {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  border-bottom: 2px dotted;
+} */
+
+/* h2::after { font-weight: 200; content: ' ##' }
+h3::after { font-weight: 200; content: ' ###' }
+h4::after { font-weight: 200; content: ' ####' }
+h5::after { font-weight: 200; content: ' #####' }
+h6::after { font-weight: 200; content: ' ######' } */
 
 hr {
   position: relative;
@@ -109,8 +322,11 @@ a {
   text-decoration-thickness: var(--border-thickness);
 }
 
-a:link, a:visited {
-  color: var(--text-color);
+a:visited {
+  color: var(--visited-color);
+}
+a:link {
+  color: var(--link-color);
 }
 
 p {
@@ -144,7 +360,7 @@ table {
 
 th, td {
   border: var(--border-thickness) solid var(--text-color);
-  padding: 
+  padding:
     calc((var(--line-height) / 2))
     calc(1ch - var(--border-thickness) / 2)
     calc((var(--line-height) / 2) - (var(--border-thickness)))
@@ -177,6 +393,12 @@ th {
 .header tr td:last-child {
   text-align: right;
 }
+/* .header {
+  position: sticky;
+  top: -2px;
+  background-color: var(--background-color);
+  z-index: 40;
+} */
 
 p {
   word-break: break-word;
@@ -199,6 +421,13 @@ details {
   border: var(--border-thickness) solid var(--text-color);
   padding: calc(var(--line-height) - var(--border-thickness)) 1ch;
   margin-bottom: var(--line-height);
+}
+
+blockquote {
+  border-left: 2px dashed var(--half-color);
+  padding: var(--line-height) calc(3ch - 4px);
+  margin: 0;
+  margin-left: 2px;
 }
 
 summary {
@@ -236,8 +465,33 @@ pre, code {
   font-family: var(--font-family);
 }
 
+code, pre:has(> code) {
+  /* background: color-mix(in oklab, var(--half-color) 33%, var(--background-color) 67%); */
+  background-color: var(--background-color);
+  --dot-size: 1px;
+  --dot-spacing: 1.5px;
+  --line-width: 0.5px;
+  --line-spacing: 4px;
+  background-size: var(--line-spacing) var(--line-spacing);
+  background-image: repeating-linear-gradient(0deg, var(--half-color) 0, var(--half-color) var(--line-width), var(--background-color) 0, var(--background-color) 50%);
+}
+@supports (background: paint(id)) {
+  code, pre:has(> code) {
+    background: paint(dot-grid) var(--background-color);
+  }
+}
+
 code {
   font-weight: var(--font-weight-medium);
+}
+pre code {
+  background: unset;
+}
+pre:has(> code) {
+  font-weight: var(--font-weight-medium);
+  padding: var(--line-height) 2ch;
+  --dot-spacing: 3px;
+  --line-spacing: 5px;
 }
 
 figure {
@@ -273,7 +527,7 @@ ul ul {
   padding: 0 0 0 3ch;
   margin: 0;
 }
-ol li:before { 
+ol li:before {
   content: counters(item, ".") ". ";
   counter-increment: item;
   font-weight: var(--font-weight-medium);
@@ -288,13 +542,13 @@ li::marker {
   line-height: 0;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     height: var(--line-height);
-}
+} */
 
 input, button, textarea {
   border: var(--border-thickness) solid var(--text-color);
-  padding: 
+  padding:
     calc(var(--line-height) / 2 - var(--border-thickness))
     calc(1ch - var(--border-thickness));
   margin: 0;
@@ -306,8 +560,8 @@ input, button, textarea {
   background: var(--background-color);
   color: var(--text-color);
   line-height: normal;
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
+  /* -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit; */
   -webkit-appearance: none;
 }
 
@@ -326,9 +580,13 @@ input[type=checkbox]:checked:before {
   background: var(--text-color);
 }
 
+*:focus {
+  /* outline: 2px dotted var(--half-color); */
+  outline: 2px dotted var(--text-color);
+}
+
 button:focus, input:focus {
-  --border-thickness: 3px;
-  outline: none;
+  /* --border-thickness: 2px; */
 }
 
 input {
@@ -352,12 +610,31 @@ button {
   cursor: pointer;
 }
 
+button {
+  box-shadow: 2px 2px 0 var(--text-color);
+}
 button:hover {
   background: var(--background-color-alt);
 }
-button:active {
+button:not(:disabled):active {
   transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0;
 }
+
+input, textarea {
+  /* box-shadow: inset 3px 3px 0 color-mix(in srgb, var(--text-color) var(--medium-mix), var(--background-color) calc(100% - var(--medium-mix))); */
+  box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.10);
+}
+
+input:disabled, textarea:disabled, button:disabled {
+  color: var(--half-color);
+  background-color: var(--background-color);
+  background-size: var(--line-spacing) var(--line-spacing);
+  background-image: repeating-linear-gradient(135deg, var(--half-color) 0, var(--half-color) var(--line-width), var(--background-color) 0, var(--background-color) 50%);
+  background: paint(hatched-lines);
+  /* box-shadow: none; */
+}
+
 
 label {
   display: block;
@@ -434,18 +711,37 @@ label input {
 /* DEBUG UTILITIES */
 
 .debug .debug-grid {
-  --color: color-mix(in srgb, var(--text-color) 10%, var(--background-color) 90%);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-image:
-    repeating-linear-gradient(var(--color) 0 1px, transparent 1px 100%),
-    repeating-linear-gradient(90deg, var(--color) 0 1px, transparent 1px 100%);
-  background-size: 1ch var(--line-height);
   margin: 0;
+}
+
+.debug  {
+  --debug-color: color-mix(in hsl, var(--text-color) var(--light-mix), var(--background-color) calc(100% - var(--light-mix)));
+}
+
+.calt {
+  --texture-healing: 1;
+}
+
+.debug h1,
+.debug #TOC > h2,
+.debug .debug-grid-bg {
+  background-image:
+    repeating-linear-gradient(var(--debug-color) 0 1px, transparent 1px 100%),
+    repeating-linear-gradient(90deg, var(--debug-color) 0 1px, transparent 1px 100%);
+  background-size: 1ch var(--line-height);
+  background-position: top left;
+  /* margin: 0; */
+}
+
+
+.debug h1 {
+  background-size: .5ch var(--line-height);
 }
 
 .debug .off-grid {
@@ -454,4 +750,17 @@ label input {
 
 .debug-toggle-label {
   text-align: right;
+  /* position: sticky; */
+  top: 0;
+  z-index: 50;
+  /* background: var(--background-color); */
+}
+
+h2.clone {
+  position: sticky;
+  z-index: 50;
+  top: 0;
+}
+h2.original {
+  margin-top: calc(-4 * var(--line-height));
 }

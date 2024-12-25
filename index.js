@@ -1,3 +1,7 @@
+CSS.paintWorklet?.addModule('./dot-grid-worklet.js');
+CSS.paintWorklet?.addModule('./scan-lines-worklet.js');
+CSS.paintWorklet?.addModule('./hatched-lines-worklet.js');
+
 function gridCellDimensions() {
   const element = document.createElement("div");
   element.style.position = "fixed";
@@ -46,7 +50,7 @@ function adjustMediaPadding() {
   }
 
   const medias = document.querySelectorAll("img, video");
-  for (media of medias) {
+  for (const media of medias) {
     switch (media.tagName) {
       case "IMG":
         if (media.complete) {
@@ -118,3 +122,21 @@ function onDebugToggle() {
 }
 debugToggle.addEventListener("change", onDebugToggle);
 onDebugToggle();
+
+const caltToggle = document.querySelector(".calt-toggle");
+function onCaltToggle() {
+  document.body.classList.toggle("calt", caltToggle?.checked);
+}
+caltToggle?.addEventListener("change", onCaltToggle);
+onCaltToggle();
+
+
+const h2s = document.querySelectorAll("h2:not(#toc-title)");
+for (const h2 of h2s) {
+  /** @type {HTMLHeadingElement} */const clone = h2.cloneNode(true);
+  clone.id = "";
+  clone.classList.add("clone");
+  h2.classList.add("original");
+  h2.parentElement.insertBefore(clone, h2);
+}
+
